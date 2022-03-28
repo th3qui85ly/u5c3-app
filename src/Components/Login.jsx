@@ -3,10 +3,12 @@ import { AuthContext } from "../Contexts/AuthContext";
 
 export const Login = () => {
     const { login } = React.useContext(AuthContext);
-    const [formDetails, setFormDetails] = React.useState({
-        password: "",
-        username: ""
-    });
+    const [formDetails, setFormDetails] = React.useState(
+        { 
+            username: "",
+            password: ""
+        }
+    );
 
     const handleChange = (e) => {
        // console.log(e.target.value);
@@ -20,19 +22,18 @@ export const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formDetails);
+        //console.log(formDetails);
         fetch(`https://masai-api-mocker.herokuapp.com/auth/login`, {
-            mode: "no-cors",
             method: "POST",
             body: JSON.stringify(formDetails),
-            header: { "Content-Type": "application/json" }
+            headers: { "content-type": "application/json" }
         })
         .then((res) => res.json())
         .then((res) => login(res.token))
         .catch((err) => console.log(err));
     };
 
-    const { password, username } = formDetails;
+    const { username, password } = formDetails;
     return(
         <form onSubmit={handleSubmit}>
             <h1>Login Page</h1>
